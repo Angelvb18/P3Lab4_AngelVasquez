@@ -3,13 +3,13 @@
 #include <vector>
 using namespace std;
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
+string Encriptado(string , int , int);
 void VerMensajes(vector<Persona*> , int);
 void EnviarMensaje(vector<Persona*>& , int);
 void menu();
 
 
 int main() {
-	 
 	menu();
 }
 /*
@@ -121,13 +121,63 @@ void VerMensajes(vector<Persona*>personas , int posicion){
 	
 }
 void EnviarMensaje(vector<Persona*>& lsitapersonas, int posicion){
-    int destinatario;
+    int destinatario ;
+	 string mensaje;
     cout << "***Enviar mensajes***\n\n:Usuarios:\n";
     for(int i = 0 ; i < lsitapersonas.size() ; i++){
 	     cout << i << ". " << lsitapersonas[i] -> getName() << " " << lsitapersonas[i] -> getPassword() << endl;
 	}
 	cout << "\n->Seleccione el destinatario: ";
 	cin >> destinatario;
-	  
+	cout << "-NOTA: No ingrese espacios, en lugar de ello, coloque un '_'.\n->Ingrese el mensaje para " << lsitapersonas[destinatario] -> getName() << endl;
+	cin >> mensaje;
+	Encriptado(mensaje , lsitapersonas[destinatario] -> getKey() , 1);
+}
+string Encriptado(string mensaje, int llave, int sentido){
+	vector<string> cadenas;
+	string aux = "";
+	int controldivisicion = 0 ;
+	for(int i = 0 ; i < mensaje.size() ; i++){
+		aux+=mensaje[i];		
+		controldivisicion++;
+	   if(controldivisicion == llave){
+	      cadenas.push_back(aux);
+	      aux = "";
+	      controldivisicion = 0;
+	   }
+	   
+	}
+	for(int i = 0 ; i < cadenas.size() ; i++){
+	    cout << cadenas[i] << endl;
+	}
+	if(sentido == 1){
+		if(llave == 0){
+		   return mensaje;
+		}else{
+			for(int i = 0 ; i < cadenas.size() ; i++){
+			     if(i % 2 == 0 ){
+			     	for(int j = 0 ; j < cadenas[i].size() ; j++){
+						cadenas[i][j] = cadenas[i][j] +llave;
+					}
+				 }else{
+				 	for(int j = 0 ; j < cadenas[i].size() ; j++){
+						cadenas[i][j] = cadenas[i][j] - llave;
+					}
+				 }
+			}
+			mensaje = "";
+			for(int i = 0 ; i < cadenas.size() ; i++){
+			    mensaje+=cadenas[i];
+			}
+			Encriptado(mensaje,llave-1,sentido);
+		}
+		
+	}else{
+		if(llave == 0){
+		   return mensaje;
+		}else{
+			
+		}
+	}
 }
 

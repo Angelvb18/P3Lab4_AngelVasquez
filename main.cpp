@@ -105,7 +105,7 @@ int esta(vector<Persona*> Personas, string usser, string pass){
 	return encontre;
 }
 void VerMensajes(vector<Persona*>personas , int posicion){
-	int pomen;
+	int pomensaje;
 	cout << "***Enviar mensajes***\n\n";
 	cout << ":Usuarios:" << endl;
 	for(int i = 0 ; i < personas[posicion] ->  getMensajes().size(); i++){
@@ -113,11 +113,11 @@ void VerMensajes(vector<Persona*>personas , int posicion){
 	}
 	do{
 		cout << "->Seleccione el mensaje: ";
-		cin >> pomen;
-	}while(pomen > personas[posicion] -> getMensajes().size() || pomen < 1);
-	
-	
-	
+		cin >> pomensaje;
+	}while(pomensaje > personas[posicion] -> getMensajes().size() || pomensaje < 1);
+	cout << "El mensaje es:\n"<<endl;
+	for(int i = 0 ; i < personas[posicion] -> getMensajes()[pomensaje].size() ; i++){
+	}
 	
 }
 void EnviarMensaje(vector<Persona*>& lsitapersonas, int posicion){
@@ -131,8 +131,10 @@ void EnviarMensaje(vector<Persona*>& lsitapersonas, int posicion){
 	cin >> destinatario;
 	cout << "-NOTA: No ingrese espacios, en lugar de ello, coloque un '_'.\n->Ingrese el mensaje para " << lsitapersonas[destinatario] -> getName() << endl;
 	cin >> mensaje;
-	Encriptado(mensaje , lsitapersonas[destinatario] -> getKey() , 1);
+	lsitapersonas[destinatario] -> getMensajes().push_back("De:"+lsitapersonas[posicion]-> getName()+" "+Encriptado(mensaje , lsitapersonas[destinatario] -> getKey() , 1));
+	cout << "**Mensaje enviado.\n" << endl;
 }
+
 string Encriptado(string mensaje, int llave, int sentido){
 	vector<string> cadenas;
 	string aux = "";
@@ -176,7 +178,22 @@ string Encriptado(string mensaje, int llave, int sentido){
 		if(llave == 0){
 		   return mensaje;
 		}else{
-			
+			for(int i = 0 ; i < cadenas.size() ; i++){
+			     if(i % 2 == 0 ){
+			     	for(int j = 0 ; j < cadenas[i].size() ; j++){
+						cadenas[i][j] = cadenas[i][j] -llave;
+					}
+				 }else{
+				 	for(int j = 0 ; j < cadenas[i].size() ; j++){
+						cadenas[i][j] = cadenas[i][j] + llave;
+					}
+				 }
+			}
+			mensaje = "";
+			for(int i = 0 ; i < cadenas.size() ; i++){
+			    mensaje+=cadenas[i];
+			}
+			Encriptado(mensaje,llave-1,sentido);
 		}
 	}
 }

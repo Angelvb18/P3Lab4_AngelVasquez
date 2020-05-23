@@ -168,11 +168,11 @@ string Encriptado(string mensaje, int llave, int sentido){
 			for(int i = 0 ; i < cadenas.size() ; i++){
 			     if(i % 2 == 0 ){
 			     	for(int j = 0 ; j < cadenas[i].size() ; j++){
-						cadenas[i][j] = cadenas[i][j] +llave;
+						cadenas[i][j] += llave;
 					}
 				 }else{
 				 	for(int j = 0 ; j < cadenas[i].size() ; j++){
-						cadenas[i][j] = cadenas[i][j] - llave;
+						cadenas[i][j] -=  llave;
 					}
 				 }
 			}
@@ -190,11 +190,11 @@ string Encriptado(string mensaje, int llave, int sentido){
 			for(int i = 0 ; i < cadenas.size() ; i++){
 			     if(i % 2 == 0 ){
 			     	for(int j = 0 ; j < cadenas[i].size() ; j++){
-						cadenas[i][j] = cadenas[i][j] -llave;
+						cadenas[i][j]-= llave ;
 					}
 				 }else{
 				 	for(int j = 0 ; j < cadenas[i].size() ; j++){
-						cadenas[i][j] = cadenas[i][j] + llave;
+						cadenas[i][j] += llave;
 					}
 				 }
 			}

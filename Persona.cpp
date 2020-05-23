@@ -36,5 +36,8 @@ void Persona::setKey(){
 vector<string> Persona::getMensajes(){
    return mensajes;
 }
+void Persona::setMensajes(string k){
+	mensajes.push_back(k);
+}
 
 

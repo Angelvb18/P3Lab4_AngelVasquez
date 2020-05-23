@@ -54,13 +54,15 @@ void menu(){
 							cin >> opcion2;
 							switch(opcion2){
 								case 1 :{
-									EnviarMensaje(Personas , posicion);
+									EnviarMensaje(Personas  , posicion);
 									break;
 								}
 								case 2 :{
+									
 									if(Personas[posicion] -> getMensajes().size() > 0){
 										VerMensajes(Personas,posicion);
 									}else{
+										cout << Personas[posicion] -> getMensajes().size(); 
 									    cout << "-X- No hay mensajes\n\n";
 									}
 									
@@ -109,15 +111,24 @@ void VerMensajes(vector<Persona*>personas , int posicion){
 	cout << "***Enviar mensajes***\n\n";
 	cout << ":Usuarios:" << endl;
 	for(int i = 0 ; i < personas[posicion] ->  getMensajes().size(); i++){
-	    cout << i+1 << ". " << personas[posicion] -> getMensajes()[i]<< endl;
+	    cout << i << ". " << personas[posicion] -> getMensajes()[i]<< endl;
 	}
 	do{
 		cout << "->Seleccione el mensaje: ";
 		cin >> pomensaje;
-	}while(pomensaje > personas[posicion] -> getMensajes().size() || pomensaje < 1);
+	}while(pomensaje > personas[posicion] -> getMensajes().size() );
 	cout << "El mensaje es:\n"<<endl;
+	int entroelespacio = -1;
+	string submensaje = ""; 
 	for(int i = 0 ; i < personas[posicion] -> getMensajes()[pomensaje].size() ; i++){
+		if(personas[posicion] -> getMensajes()[pomensaje][i] == ' '){
+		   entroelespacio = 1 ;
+		}
+		if(entroelespacio != -1){
+		   submensaje+=personas[posicion] -> getMensajes()[pomensaje][i];
+		}
 	}
+	cout << "[TEXT]:"<<Encriptado(submensaje,personas[posicion] -> getKey(),2) << "\n\n";
 	
 }
 void EnviarMensaje(vector<Persona*>& lsitapersonas, int posicion){
@@ -131,7 +142,8 @@ void EnviarMensaje(vector<Persona*>& lsitapersonas, int posicion){
 	cin >> destinatario;
 	cout << "-NOTA: No ingrese espacios, en lugar de ello, coloque un '_'.\n->Ingrese el mensaje para " << lsitapersonas[destinatario] -> getName() << endl;
 	cin >> mensaje;
-	lsitapersonas[destinatario] -> getMensajes().push_back("De:"+lsitapersonas[posicion]-> getName()+" "+Encriptado(mensaje , lsitapersonas[destinatario] -> getKey() , 1));
+	string mensajeencirptado = "De:"+lsitapersonas[posicion] -> getName()+" "+Encriptado(mensaje , lsitapersonas[destinatario] -> getKey() , 1);
+	lsitapersonas[destinatario] -> setMensajes( mensajeencirptado);
 	cout << "**Mensaje enviado.\n" << endl;
 }
 
@@ -149,9 +161,6 @@ string Encriptado(string mensaje, int llave, int sentido){
 	   }
 	   
 	}
-	for(int i = 0 ; i < cadenas.size() ; i++){
-	    cout << cadenas[i] << endl;
-	}
 	if(sentido == 1){
 		if(llave == 0){
 		   return mensaje;
@@ -167,11 +176,11 @@ string Encriptado(string mensaje, int llave, int sentido){
 					}
 				 }
 			}
-			mensaje = "";
+			string mensaje2 = "";
 			for(int i = 0 ; i < cadenas.size() ; i++){
-			    mensaje+=cadenas[i];
+			    mensaje2+=cadenas[i];
 			}
-			Encriptado(mensaje,llave-1,sentido);
+			return Encriptado(mensaje2,llave-1,sentido);
 		}
 		
 	}else{
@@ -193,7 +202,7 @@ string Encriptado(string mensaje, int llave, int sentido){
 			for(int i = 0 ; i < cadenas.size() ; i++){
 			    mensaje+=cadenas[i];
 			}
-			Encriptado(mensaje,llave-1,sentido);
+			return Encriptado(mensaje,llave-1,sentido);
 		}
 	}
 }

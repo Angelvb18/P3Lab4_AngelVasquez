@@ -18,6 +18,7 @@ class Persona
 		string getPassword();
 		int getKey();
 		void setKey();
+		void setMensajes(string);
 		vector<string> getMensajes();
 	protected:
 };

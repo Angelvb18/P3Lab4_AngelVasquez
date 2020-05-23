@@ -31,8 +31,7 @@ int Persona::getKey(){
 }
 void Persona::setKey(){
 	srand(time (NULL));
-	key = 3;
-	//key =  1 + rand ()% ( 14 );
+	key =  1 + rand ()% ( 14 );
 }
 vector<string> Persona::getMensajes(){
    return mensajes;

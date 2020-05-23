@@ -121,12 +121,13 @@ void VerMensajes(vector<Persona*>personas , int posicion){
 	int entroelespacio = -1;
 	string submensaje = ""; 
 	for(int i = 0 ; i < personas[posicion] -> getMensajes()[pomensaje].size() ; i++){
-		if(personas[posicion] -> getMensajes()[pomensaje][i] == ' '){
-		   entroelespacio = 1 ;
-		}
 		if(entroelespacio != -1){
 		   submensaje+=personas[posicion] -> getMensajes()[pomensaje][i];
 		}
+		if(personas[posicion] -> getMensajes()[pomensaje][i] == ' '){
+		   entroelespacio = 1 ;
+		}
+		
 	}
 	cout << "[TEXT]:"<<Encriptado(submensaje,personas[posicion] -> getKey(),2) << "\n\n";
 	
@@ -154,7 +155,7 @@ string Encriptado(string mensaje, int llave, int sentido){
 	for(int i = 0 ; i < mensaje.size() ; i++){
 		aux+=mensaje[i];		
 		controldivisicion++;
-	   if(controldivisicion == llave){
+	   if(controldivisicion == llave || i == mensaje.size()-1){
 	      cadenas.push_back(aux);
 	      aux = "";
 	      controldivisicion = 0;
